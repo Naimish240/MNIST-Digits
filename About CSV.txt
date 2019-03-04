@@ -1,0 +1,4 @@
+The dataset is in csv format, taken from kaggle.
+
+The csv file has 785 columns, with the first being the digit and the 
+rest 784 being values from 0 to 255, holding intensity of that pixel.
