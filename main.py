@@ -6,7 +6,7 @@
 
 #//////////////////////////////////////////////////////////////////////////
 # Import statements
-import random                   # To initialize weights and biases
+from random import uniform      # To initialize weights and biases
 from math import sqrt, exp      # For mathematical operations
 from time import time           # To calculate time taken
 import pickle                   # To save the model
@@ -50,21 +50,41 @@ def beautify(arr):
 #//////////////////////////////////////////////////////////////////////////#
 
 #//////////////////////////////////////////////////////////////////////////#
-# Function to randomly initialize weights and biases 
-def rand_init(x, low, high):
-    # x    : the number of neurons in layer
-    # low  : the lower limit of random value
-    # high : the upper limit for random values
-    # W.I.P.
-    pass
+# Function to randomly initialize weights and biases for hidden layer
+def rand_init(x, y):
+    # x    : The number of neurons in layer
+    # y    : Number of neurons in previous layer
+    
+    bias = [0]*x                        # Initialize bias matrix with zeros
+    weight = []                         # Create weight matrix
+    
+    for i in range(x):
+        l = []
+        for j in range(y):
+            rt_x = 1/sqrt(x)            # Finds value of 1/root(x)
+            rand = uniform(-rt_x,rt_x)  # Generates random number
+            l.append(rand)              # Adds it to list
+        weight.append(l)                # Adds list to weight matrix
+        
+    # Return list [weight,bias]
+    return [weight, bias]
 #//////////////////////////////////////////////////////////////////////////#
 
 #//////////////////////////////////////////////////////////////////////////#
-# Function to find sigmoid of x
-# Sigmoid of x is given as
-#       e^x
-#    ---------  
-#     e^x + 1  
+# Function to calculate dot product
+def dot_product(x, wt, b):
+    # x    : input matrix  
+    # wt   : weight matrix 
+    # b    : bias value matrix
+    dot = sum(i*j for i,j in zip(x,wt)) # Calculate dot product
+    dot += b                            # Add bias
+    
+    # Return the product
+    return dot
+#//////////////////////////////////////////////////////////////////////////#
+
+#//////////////////////////////////////////////////////////////////////////#
+# Function to find sigmoid
 def sigmoid(x):
     # x : variable to calcuate sigmoid for
     return (exp(x) / (exp(x) + 1))
