@@ -4,7 +4,7 @@
 # Written without any external dependancies #
 #///////////////////////////////////////////#
 
-#//////////////////////////////////////////////////////////////////////////
+#//////////////////////////////////////////////////////////////////////////#
 # Import statements
 from random import uniform      # To initialize weights and biases
 from math import sqrt, exp      # For mathematical operations
@@ -28,7 +28,7 @@ def trainingData():
             
             output_data.append(int(i[0]))        # Adding to output matrix
             input_data.append(i[1:])             # Adding to input strings
-    # Edits input data to contain values from 0-1 instead of 0-255        
+    # Edits input data to contain values from 0-1 instead of 0-255
     input_data = beautify(input_data)
     # Returns the input and output matricies
     return [input_data, output_data]
@@ -54,8 +54,7 @@ def beautify(arr):
 def rand_init(x, y):
     # x    : The number of neurons in layer
     # y    : Number of neurons in previous layer
-    
-    bias = [0]*x                        # Initialize bias matrix with zeros
+
     weight = []                         # Create weight matrix
     
     for i in range(x):
@@ -66,8 +65,8 @@ def rand_init(x, y):
             l.append(rand)              # Adds it to list
         weight.append(l)                # Adds list to weight matrix
         
-    # Return list [weight,bias]
-    return [weight, bias]
+    # Return list weights
+    return weights
 #//////////////////////////////////////////////////////////////////////////#
 
 #//////////////////////////////////////////////////////////////////////////#
@@ -90,6 +89,30 @@ def sigmoid(x):
     return (exp(x) / (exp(x) + 1))
 #//////////////////////////////////////////////////////////////////////////#
 
+#//////////////////////////////////////////////////////////////////////////#
+# Class whose object is an array of neurons in the layer
+class HiddenLayer(object):
+    # Constructor
+    #----------------------------------------------------------------------#
+    def __init__(self, prev, wt, bias, length):
+        # prev      : Output of the previous layer
+        # weight    : Weight matrix for layer
+        # bias      : Bias value for the each neuron in layer
+        # output    : Output matrix of the layer
+        self.prev = prev
+        self.wt = []
+        self.bias = [0] * length
+        self.output = [] * length
+    #----------------------------------------------------------------------#
+    
+    #----------------------------------------------------------------------#
+    # Initialize values of weights
+    def setWeight(self):
+        self.weight = rand_init(len(self.prev), len(self.output))
+    #----------------------------------------------------------------------#
+    
+    #----------------------------------------------------------------------#
+    
 #//////////////////////////////////////////////////////////////////////////#
 if __name__ == '__main__':
     # Currently takes 13 seconds
