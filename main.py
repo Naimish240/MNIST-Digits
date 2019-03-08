@@ -20,7 +20,7 @@ network = []
 
 #//////////////////////////////////////////////////////////////////////////#
 # Function to get data from csv and return a dictionary
-def convert_csv(fileName, val):
+def convert_csv(fileName, val = 1):
     input_data = []
     output_data = []
     
