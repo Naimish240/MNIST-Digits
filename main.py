@@ -20,12 +20,12 @@ network = []
 
 #//////////////////////////////////////////////////////////////////////////#
 # Function to get data from csv and return a dictionary
-def trainingData():
+def convert_csv(fileName, val):
     input_data = []
     output_data = []
     
     # Opening the csv file
-    with open('mnist_train.csv', 'r') as fh:
+    with open(fileName, 'r') as fh:
         lines = fh.readlines()
         
         for i in lines:
@@ -34,8 +34,10 @@ def trainingData():
             
             output_data.append(int(i[0]))        # Adding to output matrix
             input_data.append(i[1:])             # Adding to input strings
-    # Edits input data to contain values from 0-1 instead of 0-255
-    input_data = beautify(input_data, 225)
+    # Edits input data to contain values from 0-1 instead of 0-val
+    # Provided the value is not unity
+    if val != 1:
+        input_data = beautify(input_data, val)
     # Returns the input and output matricies
     return [input_data, output_data]
 #//////////////////////////////////////////////////////////////////////////#
@@ -72,7 +74,7 @@ def rand_init(x, y):
         weight.append(l)                # Adds list to weight matrix
         
     # Return list weights
-    return weights
+    return weight
 #//////////////////////////////////////////////////////////////////////////#
 
 #//////////////////////////////////////////////////////////////////////////#
@@ -96,8 +98,16 @@ def sigmoid(x):
 #//////////////////////////////////////////////////////////////////////////#
 
 #//////////////////////////////////////////////////////////////////////////#
-# Class whose object is an array of neurons in the layer
-class HiddenLayer(object):
+# Function to calculate the derivative of the sigmoid function
+def derivativeSigmoid(x):
+    # x : variable to calcuate derivative for for
+    t = sigmoid(x)
+    return t*(1-t)
+#//////////////////////////////////////////////////////////////////////////#
+
+#//////////////////////////////////////////////////////////////////////////#
+# Class whose object is the layer
+class Layer(object):
     # Constructor
     #----------------------------------------------------------------------#
     def __init__(self, index, wt, bias, length, output = []):
@@ -105,7 +115,7 @@ class HiddenLayer(object):
         # weight    : Weight matrix for layer
         # bias      : Bias value for the each neuron in layer
         # output    : Output matrix of the layer
-        self.prev = prev
+        self.index = index
         self.wt = []
         self.bias = [0] * length
         self.output = output
@@ -114,39 +124,57 @@ class HiddenLayer(object):
     #----------------------------------------------------------------------#
     # Initialize values of weights
     def setWeight(self):
-        self.weight = rand_init(len(self.prev), len(self.output))
+        # Calls the rand_init function and passes to it the length of the 
+        # previous layer and length of the current layer 
+        self.weight = rand_init(len(self.bias), len(self.index - 1))
     #----------------------------------------------------------------------#
     
     #----------------------------------------------------------------------#
     # Function to find output
     def getOutput(self):
-        pass
+        for i in network[self.index - 1]:
+            continue
 #//////////////////////////////////////////////////////////////////////////#
 
 #//////////////////////////////////////////////////////////////////////////#
-def start():
-    # epoches           : Number of cycles to train for
-    # learning_rate     : Learning rate of the network
-    # hidden_layers     : Number of hidden layers in the network
-    # output_layer      : Size of output layer
-    #
-    
+# Function to save the model after the current epoch
+def saveModel(x):
+    # x     : Epoch number
+    with open('model_{}_{}'.format(x, time), 'wb') as fh:
+        pickle.dump(network, fh)
+#//////////////////////////////////////////////////////////////////////////#
+
+#//////////////////////////////////////////////////////////////////////////#
+# Function to load model from epoch x
+def loadModel(x):
+    # x     : File name
+    data = None
+    with open('model_{}'.format(x), 'wb') as fh:
+        data = pickle.load(fh)
+    return data
+#//////////////////////////////////////////////////////////////////////////#
+
+#//////////////////////////////////////////////////////////////////////////#
+def start(epoches, learning_rate, hidden_layers, act_fn = 'Sigmoid'):
+    # epoches               : Number of cycles to train for
+    # learning_rate         : Learning rate of the network
+    # hidden_layers         : Number of hidden layers in the network
+    # act_fn                : Activation function used
+    for i in range(epoches):
+        continue
 #//////////////////////////////////////////////////////////////////////////#
 
 #//////////////////////////////////////////////////////////////////////////#
 if __name__ == '__main__':
     # Currently takes 13 seconds
+    # Tries loading the input csv
     a = trainingData()
-    
     t = 0
-
     for i in a[0]:
         if len(i) == 784:
             t+=1
         else:
             print(len(i))
-    
     print(t)
-
     print(a[0][0],"\n",len(a[0][0]))
 #//////////////////////////////////////////////////////////////////////////#
