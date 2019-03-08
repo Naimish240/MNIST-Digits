@@ -13,6 +13,12 @@ import pickle                   # To save the model
 #//////////////////////////////////////////////////////////////////////////#
 
 #//////////////////////////////////////////////////////////////////////////#
+# Creating the network as an array
+# Global variable
+network = []
+#//////////////////////////////////////////////////////////////////////////#
+
+#//////////////////////////////////////////////////////////////////////////#
 # Function to get data from csv and return a dictionary
 def trainingData():
     input_data = []
@@ -29,21 +35,22 @@ def trainingData():
             output_data.append(int(i[0]))        # Adding to output matrix
             input_data.append(i[1:])             # Adding to input strings
     # Edits input data to contain values from 0-1 instead of 0-255
-    input_data = beautify(input_data)
+    input_data = beautify(input_data, 225)
     # Returns the input and output matricies
     return [input_data, output_data]
 #//////////////////////////////////////////////////////////////////////////#
 
 #//////////////////////////////////////////////////////////////////////////#
 # Convert the values of input matrix from between 0-255 to 0-1
-def beautify(arr):
+def beautify(arr, c):
     # arr : input matrix
+    # c   : factor to divide by
     a = []
-    # For loop to divide each element by 255
+    # For loop to divide each element by c
     for i in arr:
         b = []
         for j in i:
-            b.append(int(j)/255)
+            b.append(int(j)/c)
         a.append(b)
     # Returns double dimentional array
     return a
@@ -54,7 +61,6 @@ def beautify(arr):
 def rand_init(x, y):
     # x    : The number of neurons in layer
     # y    : Number of neurons in previous layer
-
     weight = []                         # Create weight matrix
     
     for i in range(x):
@@ -94,15 +100,15 @@ def sigmoid(x):
 class HiddenLayer(object):
     # Constructor
     #----------------------------------------------------------------------#
-    def __init__(self, prev, wt, bias, length):
-        # prev      : Output of the previous layer
+    def __init__(self, index, wt, bias, length, output = []):
+        # index     : Index of current layer
         # weight    : Weight matrix for layer
         # bias      : Bias value for the each neuron in layer
         # output    : Output matrix of the layer
         self.prev = prev
         self.wt = []
         self.bias = [0] * length
-        self.output = [] * length
+        self.output = output
     #----------------------------------------------------------------------#
     
     #----------------------------------------------------------------------#
@@ -112,7 +118,21 @@ class HiddenLayer(object):
     #----------------------------------------------------------------------#
     
     #----------------------------------------------------------------------#
+    # Function to find output
+    def getOutput(self):
+        pass
+#//////////////////////////////////////////////////////////////////////////#
+
+#//////////////////////////////////////////////////////////////////////////#
+def start():
+    # epoches           : Number of cycles to train for
+    # learning_rate     : Learning rate of the network
+    # hidden_layers     : Number of hidden layers in the network
+    # output_layer      : Size of output layer
+    #
     
+#//////////////////////////////////////////////////////////////////////////#
+
 #//////////////////////////////////////////////////////////////////////////#
 if __name__ == '__main__':
     # Currently takes 13 seconds
