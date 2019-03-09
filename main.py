@@ -69,7 +69,9 @@ class Layer(object):
         # bias      : Bias value for the each neuron in layer
         # output    : Output matrix of the layer
         # x         : Matrix of neurons for the layer
-        
+
+	# length    : The number of neurons in the network
+
         self.index = index
         self.x = [] * length
         self.wt = []
