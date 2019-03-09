@@ -69,6 +69,7 @@ class Layer(object):
         # bias      : Bias value for the each neuron in layer
         # output    : Output matrix of the layer
         # x         : Matrix of neurons for the layer
+        
         self.index = index
         self.x = [] * length
         self.wt = []
@@ -93,15 +94,19 @@ class Layer(object):
     
     #----------------------------------------------------------------------#
     # Function to randomly initialize weights and biases for hidden layer
-    def rand_init(self, x, y):
+    def rand_init(self):
         # x    : The number of neurons in layer
         # y    : Number of neurons in previous layer
-        weight = []                         # Create weight matrix
+        x = len(network[self.index].bias)
+        y = len(network[self.index - 1].bias)
         
+        weight = []           # Create weight matrix
+        rt_x = 1/sqrt(x)      # Finds value of 1/root(x)
+        
+        # for loop to initialize the weights
         for i in range(x):
             l = []
             for j in range(y):
-                rt_x = 1/sqrt(x)            # Finds value of 1/root(x)
                 rand = uniform(-rt_x,rt_x)  # Generates random number
                 l.append(rand)              # Adds it to list
             weight.append(l)                # Adds list to weight matrix
@@ -114,7 +119,10 @@ class Layer(object):
     # Cost function
     def cost(self):
         # Using Euclidian distance
-        pass
+        
+        # prev contains the previous layer of the network
+        prev = network[self.index - 1]
+        
     #----------------------------------------------------------------------#
     
     #----------------------------------------------------------------------#
@@ -169,7 +177,7 @@ class Layer(object):
             # Calculate the dot product
             dot_i = sum(i*j for i,j in zip(self.x[k], self.wt[k]))
             # Add bias
-            dot_i += self.bias                               
+            dot_i += self.bias
             # Add dot product to the matrix
             dot.append(dot_i)
             
