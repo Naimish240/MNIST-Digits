@@ -119,11 +119,14 @@ class Layer(object):
     
     #----------------------------------------------------------------------#
     # Cost function
-    def cost(self):
+    def cost(self, last_n):
         # Using Euclidian distance
+        # last_n    : Contains output of previous n iterations 
+        # prev      : Contains the previous layer of the network
         
-        # prev contains the previous layer of the network
         prev = network[self.index - 1]
+        
+        
         
     #----------------------------------------------------------------------#
     
@@ -207,7 +210,8 @@ def loadModel(x):
 #//////////////////////////////////////////////////////////////////////////#
 
 #//////////////////////////////////////////////////////////////////////////#
-def start(epoches, learning_rate, hidden_layers, act_fn = 'Sigmoid'):
+def start(training, epoches, learning_rate, hidden_layers, act_fn = 'Sigmoid'):
+    # training              : Input layer for the network
     # epoches               : Number of cycles to train for
     # learning_rate         : Learning rate of the network
     # hidden_layers         : Number of hidden layers in the network
@@ -218,15 +222,6 @@ def start(epoches, learning_rate, hidden_layers, act_fn = 'Sigmoid'):
 
 #//////////////////////////////////////////////////////////////////////////#
 if __name__ == '__main__':
-    # Currently takes 13 seconds
-    # Tries loading the input csv
-    a = trainingData()
-    t = 0
-    for i in a[0]:
-        if len(i) == 784:
-            t+=1
-        else:
-            print(len(i))
-    print(t)
-    print(a[0][0],"\n",len(a[0][0]))
+    # Load data
+    a = convert_csv('mnist_train.csv',255)
 #//////////////////////////////////////////////////////////////////////////#
