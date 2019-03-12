@@ -1,2 +1,7 @@
 This folder contains the datasets (both training and testing)
 
+As the training set is larger than 100mb in size (104.5 mb as a csv), it has not been uploaded.
+
+The training and testing datasets can be found here:
+
+https://pjreddie.com/projects/mnist-in-csv/
