@@ -224,4 +224,9 @@ def start(training, epoches, learning_rate, hidden_layers, act_fn = 'Sigmoid'):
 if __name__ == '__main__':
     # Load data
     a = convert_csv('mnist_train.csv',255)
+    
+    # Save to binary file
+    # with open('training_dataset.dat', 'wb') as fh:
+    #    pickle.dump(a, fh)
+
 #//////////////////////////////////////////////////////////////////////////#
