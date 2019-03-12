@@ -226,7 +226,7 @@ if __name__ == '__main__':
     a = convert_csv('mnist_train.csv',255)
     
     # Save to binary file
-    # with open('training_dataset.dat', 'wb') as fh:
-    #    pickle.dump(a, fh)
+    # with open('training_dataset.bin', 'wb') as fh:
+    #     pickle.dump(a, fh)
 
 #//////////////////////////////////////////////////////////////////////////#
