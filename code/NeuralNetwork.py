@@ -6,7 +6,7 @@
 
 #//////////////////////////////////////////////////////////////////////////#
 # Import statements
-from random import uniform      # To initialize weights and biases
+from random import uniform      # To initialize weights
 from math import sqrt, exp      # For mathematical operations
 from time import time           # To calculate time taken
 #//////////////////////////////////////////////////////////////////////////#
