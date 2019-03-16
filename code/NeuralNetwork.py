@@ -128,7 +128,7 @@ class Layer(object):
     #----------------------------------------------------------------------#
     
     #----------------------------------------------------------------------#
-    # Function to calculate dot product matrix
+    # Function to calculate dot product matrix and add bias value
     def dot_product(self):
         # wt   : weight matrix 
         # bias : bias value matrix
@@ -157,7 +157,7 @@ def start(training, epoches, learning_rate, hidden_layers, act_fn = 'Sigmoid'):
     # learning_rate         : Learning rate of the network
     # hidden_layers         : Number of hidden layers in the network
     # act_fn                : Activation function used
-    for i in range(epoches):
+    for i in range(1, epoches + 1):
         continue
 #//////////////////////////////////////////////////////////////////////////#
 
