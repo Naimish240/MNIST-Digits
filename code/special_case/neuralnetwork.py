@@ -5,6 +5,38 @@
 from random import random
 from math import exp
 
+'''
+    Functions:
+    ------------------------------------------------
+    init_network(inputs, hidden, outputs)
+        Initializes the network    
+    ------------------------------------------------
+    dot(weights, bias, inputs)
+        Calcuates the dot product and adds bias 
+    ------------------------------------------------
+    sigmoid(val)
+        Calcuates the sigmoid of input
+    ------------------------------------------------
+    transfer_derivative(val)
+        Calcuates transfer derivative of value
+    ------------------------------------------------
+    forward_propagation(network, inputs)
+        Performs forward propagation
+    ------------------------------------------------
+    backpropagate_error(network, output)
+        Calculates backpropagtation error for neuron
+    ------------------------------------------------
+    update_weights(network, row, l_rate)
+        Updates the weights and biases
+    ------------------------------------------------
+    train(network, l_rate, n_epoch, expected)
+        Trains the network
+    ------------------------------------------------
+    predict(network, row)
+        Inputs the row into the network and predicts
+    ------------------------------------------------
+'''
+
 # Initialize the network
 def init_network(inputs, hidden, outputs):
     # ----------------------------------------------------
@@ -29,7 +61,7 @@ def init_network(inputs, hidden, outputs):
         h_weights.append(random())
     hidden_layer['weights'] = h_weights
     hidden_layer['bias'] = random()
-    network.append(hidden_layer)
+    network.append([hidden_layer])
     
     # weights and bias for output layer
     o_weights = []
@@ -37,7 +69,7 @@ def init_network(inputs, hidden, outputs):
         o_weights.append(random())
     output_layer['weights'] = o_weights
     output_layer['bias'] = random()
-    network.append(output_layer)
+    network.append([output_layer])
     
     # returns network
     return network
@@ -78,9 +110,21 @@ def sigmoid(val):
     # OUTPUT: 
     # ----------------------------------------------------
     # x : float : sigmoid of input
-    # ----------------------------------------------------
-    
+    # ----------------------------------------------------    
     x = 1.0 / (1 + exp(-val))
+    return x
+    
+def transfer_derivative(val):
+    # ----------------------------------------------------
+    # INPUT:
+    # ----------------------------------------------------
+    # val : float : value to calculate derivative for
+    # ----------------------------------------------------
+    # OUTPUT: 
+    # ----------------------------------------------------
+    # x : float : derivative of input
+    # ----------------------------------------------------    
+    x = val * (1 - val)
     return x
     
 # Function to forward propagate through the network
@@ -114,7 +158,106 @@ def forward_propagation(network, inputs):
     
     # Returning the output matrix
     return inputs
-            
+
+# Function to backpropagate error and store in neuron
+def backpropagate_error(network, output):
+    # ----------------------------------------------------
+    # INPUT:
+    # ----------------------------------------------------
+    # network : list : the matrix which contains the network
+    # output  : list : the expceted output for the network 
+    # ----------------------------------------------------
+    # OUTPUT: 
+    # ----------------------------------------------------
+    # output : no output, just modifies the network
+    # ----------------------------------------------------
+    
+    # Backtracing our steps to calcuate error
+    for i in reversed(range(len(network))):
+        layer = network[i]
+        errors = []
+        
+        # Verifying that i is not the last layer
+        if i != (len(network) - 1):
+            for j in range(len(layer)):
+                error = 0
+                for neuron in network[i+1]:
+                    error += (neuron['weights'][j] * neuron['delta'])
+                errors.append(error)
+                
+        # If i is the last layer
+        else:
+            for j in range(len(layer)):
+            neuron = layer[j]
+            errors.append(output[j] - neuron['output'])
+
+        # For loop to calculate delta
+        for j in range(len(layer)):
+            neuron = layer[j]
+            # Calcualting delta
+            neuron['delta'] = errors[j] * transfer_derivative(neuron['output'])
+
+# Function to update weights and bias
+def update_weights(network, row, l_rate):
+    # ----------------------------------------------------
+    # INPUT:
+    # ----------------------------------------------------
+    # network : list  : the matrix which contains the network
+    # row     : list  : the input for the network
+    # l_rate  : float : the learning rate for the network
+    # ----------------------------------------------------
+    # OUTPUT: 
+    # ----------------------------------------------------
+    # output : no output, just modifies the network
+    # ----------------------------------------------------
+    for i in range(len(network)):
+        inputs = [neuron['output'] for neuron in network[i - 1]]
+        if i == 0:
+            inputs = row
+        for neuron in network[i]:
+            for j in range(len(inputs)):
+                neuron['weights'][j] += l_rate * neuron['delta'] * inputs[j]
+            neuron['bias'] += l_rate * neuron['delta']
+
+# Function to train the network
+def train(network, train, l_rate, n_epoch, expected):
+    # ----------------------------------------------------
+    # INPUT:
+    # ----------------------------------------------------
+    # network  : list  : the matrix which contains the network
+    # train    : list  : the input for the network
+    # l_rate   : float : the learning rate for the network
+    # n_epoch  : int   : number of epochs to train for
+    # expected : list  : expected output list
+    # ----------------------------------------------------
+    # OUTPUT: 
+    # ----------------------------------------------------
+    # output : no output, just modifies the network
+    # ----------------------------------------------------    
+    for epoch in range(n_epoch):
+        sum_error = 0
+        for row in train:
+            outputs = forward_propagation(network, row)
+            sum_error += sum([expected[i]-outputs[i])**2 for i in range(len(expected))])
+            backpropagate_error(network, expected)
+            update_weights(network, row, l_rate)
+        print('> Epoch {} , lrate = {} ,error = {}'.format(epoch + 1, l_rate, sum_error))
+
+# Function to predict value for an unknown input
+def predict(network, row):
+    # ----------------------------------------------------
+    # INPUT:
+    # ----------------------------------------------------
+    # network : list  : the matrix which contains the network
+    # row     : list  : the input for the network
+    # ----------------------------------------------------
+    # OUTPUT: 
+    # ----------------------------------------------------
+    # output : returns the prediction
+    # ----------------------------------------------------
+    outputs = forward_propagation(network, row)
+    return outputs.index(max(outputs))
+
 if __name__ == '__main__':
     network = init_network(5, 9, 2)
     
