@@ -11,7 +11,7 @@ Modules used:
     for the loading bar. Can modify script to run without it.
   4. tkinter(comes with python)
     for gui to select the file to load
-  5. __future__ for print_function
+  5. 'future for print_function
 
 The MNIST dataset was used to train this network.
 The dataset is in .csv form, taken from https://pjreddie.com/projects/mnist-in-csv/
