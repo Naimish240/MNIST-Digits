@@ -247,6 +247,7 @@ def train(network, train, l_rate, n_epoch, expected, log = False):
     # ----------------------------------------------------    
     for epoch in range(n_epoch):
         sum_error = 0
+        # replace following line with "for i in range(len(train)): " to run without using tqdm
         for i in tqdm(range(len(train))):
             row = train[i]
             expected_val = expected[i]
