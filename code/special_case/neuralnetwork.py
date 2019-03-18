@@ -1,7 +1,7 @@
 # Program to create a neural network with input layer,
 # output layer, and one hidden layer.
 
-# import statements
+# Import statements
 from __future__ import print_function
 from random import random
 from math import exp
@@ -35,6 +35,9 @@ from math import exp
     ------------------------------------------------
     predict(network, row)
         Inputs the row into the network and predicts
+    ------------------------------------------------
+    main()
+        Main function for the program
     ------------------------------------------------
 '''
 
@@ -93,7 +96,7 @@ def dot(weights, bias, inputs):
     
     # Calculates dot product
     for i in range(len(weights)):
-        sum += weights[i] * input[i]
+        sum += weights[i] * inputs[i]
     
     # Adds bias
     sum += bias
@@ -189,8 +192,8 @@ def backpropagate_error(network, output):
         # If i is the last layer
         else:
             for j in range(len(layer)):
-            neuron = layer[j]
-            errors.append(output[j] - neuron['output'])
+                neuron = layer[j]
+                errors.append(output[j] - neuron['output'])
 
         # For loop to calculate delta
         for j in range(len(layer)):
@@ -239,7 +242,8 @@ def train(network, train, l_rate, n_epoch, expected):
         sum_error = 0
         for row in train:
             outputs = forward_propagation(network, row)
-            sum_error += sum([expected[i]-outputs[i])**2 for i in range(len(expected))])
+            for i in range(len(expected)):
+                sum_error += (expected[i] - outputs[i]) **  2
             backpropagate_error(network, expected)
             update_weights(network, row, l_rate)
         print('> Epoch {} , lrate = {} ,error = {}'.format(epoch + 1, l_rate, sum_error))
@@ -259,8 +263,10 @@ def predict(network, row):
     outputs = forward_propagation(network, row)
     return outputs.index(max(outputs))
 
+# Main function
+def main():
+
+    pass
+
 if __name__ == '__main__':
-    network = init_network(5, 9, 2)
-    
-    for i in network:
-        print(i)
+    main()
