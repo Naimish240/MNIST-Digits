@@ -15,7 +15,8 @@ Modules used:
   
 Currently supports only one hidden layer. Working on support for multiple layers.
 
-* UPDATE *
+*UPDATE*
+
 Added support for multiple hidden layers! Yay!
 
 The MNIST dataset was used to train this network.
