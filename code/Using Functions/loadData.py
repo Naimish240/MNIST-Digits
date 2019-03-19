@@ -115,6 +115,7 @@ def convert_csv(fileName, val = 1):
     with open(fileName, 'r') as fh:
         lines = fh.readlines()
         
+        # Replace following line with "for i in lines:" to use without tqdm
         for i in tqdm(lines):
             i = i.strip('\n')                    # Removing new line char
             i = i.split(',')                     # Splitting with comma
@@ -141,6 +142,7 @@ def beautify_input(arr, c):
     print("> Normalizing the dataset")
     a = []
     # For loop to divide each element by c
+    # Replace following line with "for i in arr:" to run without tqdm
     for i in tqdm(arr):
         b = []
         for j in i:
@@ -157,6 +159,7 @@ def beautify_output(arr):
     a = []
     print("> Forming output vectors")
     # For loop to do the conversion
+    # Replace following line with "for val in arr:" to run without tqdm 
     for val in tqdm(arr):
         # Creating empty list of zeros
         l = [0] * 10
