@@ -9,3 +9,6 @@ This folder contains two folders
         This is somewhat complete, and can be used to train a simple neural network of 
         one hidden layer
         Still working on updates to it.
+       
+       * UPDATE *
+       Now has support for multiple hidden layers! Yay!
