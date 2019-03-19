@@ -61,6 +61,20 @@
             convert from 'int' to 'list'
             ----------------------------------------------------
         ##########################################################
+        def load_model()
+            Input : 
+            ----------------------------------------------------
+            No input
+            ----------------------------------------------------
+            Output: 
+            ----------------------------------------------------
+            Returns the selected model
+            ----------------------------------------------------
+            Purpose:
+            ----------------------------------------------------
+            to load a pre-trained model
+            ----------------------------------------------------
+        ##########################################################
 
     2. neuralnetwork.py
         Functions:
@@ -157,7 +171,7 @@
             # output : no output, just modifies the network
             # ----------------------------------------------------
         ------------------------------------------------
-        train(network, l_rate, n_epoch, expected)
+        train(network, l_rate, n_epoch, expected, log = False)
             Trains the network
             # ----------------------------------------------------
             # INPUT:
@@ -167,6 +181,7 @@
             # l_rate   : float : the learning rate for the network
             # n_epoch  : int   : number of epochs to train for
             # expected : list  : expected output list
+            # log      : bool  : save the network after each epoch?
             # ----------------------------------------------------
             # OUTPUT: 
             # ----------------------------------------------------

@@ -32,7 +32,7 @@ from pickle import dump
     update_weights(network, row, l_rate)
         Updates the weights and biases
     ------------------------------------------------
-    train(network, l_rate, n_epoch, expected)
+    train(network, l_rate, n_epoch, expected, log = False)
         Trains the network
     ------------------------------------------------
     predict(network, row)

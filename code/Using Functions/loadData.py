@@ -76,11 +76,26 @@
         convert from 'int' to 'list'
         ----------------------------------------------------
     ##########################################################
+    def load_model()
+        Input : 
+        ----------------------------------------------------
+        No input
+        ----------------------------------------------------
+        Output: 
+        ----------------------------------------------------
+        Returns the selected model
+        ----------------------------------------------------
+        Purpose:
+        ----------------------------------------------------
+        to load a pre-trained model
+        ----------------------------------------------------
+    ##########################################################
 '''
 
 from tkinter import Tk
 from tkinter.filedialog import askopenfilename
 from tqdm import tqdm
+from pickle import load
 
 #//////////////////////////////////////////////////////////////////////////#
 # Function to select folder using gui
@@ -152,6 +167,21 @@ def beautify_output(arr):
 
     # Returning the list of output vectors
     return a
+#//////////////////////////////////////////////////////////////////////////#
+
+#//////////////////////////////////////////////////////////////////////////#
+# Function to load a trained model
+def load_model():
+    print("> Select the model to load")
+    # Choosing file with Tkinter gui
+    file = folder_finder_gui()
+    network = None
+    print("> Loading the model")
+    # Opening the model .dat file
+    with open(file, 'rb') as fh:
+        network = load(fh)
+    # Returning the network
+    return network
 #//////////////////////////////////////////////////////////////////////////#
 
 #//////////////////////////////////////////////////////////////////////////#
