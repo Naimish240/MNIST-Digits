@@ -19,10 +19,16 @@ def main():
     
     # Getting the number of neurons in each layer
     
-    i_neurons = int(input("> Enter the number of neruons in the input layer: "))
+    i_neurons = len(input_layer[0])
     h_neurons = int(input("> Enter the number of neurons in the hidden layer: "))
-    o_neurons = int(input("> Enter the number of neurons in the output layer: "))
     
+    # For loop to find distinct elements in the output matrix
+    distinct_o = []
+    for i in output_layer:
+        if i not in distinct_o:
+            distinct_o.append(i)
+    o_neurons = len(distinct_o)
+
     # Creating the network
     print("> Initializing the neural network...")
     network = nn.init_network(i_neurons, h_neurons, o_neurons)
