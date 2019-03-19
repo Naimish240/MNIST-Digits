@@ -80,6 +80,7 @@
 
 from tkinter import Tk
 from tkinter.filedialog import askopenfilename
+from tqdm import tqdm
 
 #//////////////////////////////////////////////////////////////////////////#
 # Function to select folder using gui
@@ -99,7 +100,7 @@ def convert_csv(fileName, val = 1):
     with open(fileName, 'r') as fh:
         lines = fh.readlines()
         
-        for i in lines:
+        for i in tqdm(lines):
             i = i.strip('\n')                    # Removing new line char
             i = i.split(',')                     # Splitting with comma
             
@@ -122,10 +123,10 @@ def convert_csv(fileName, val = 1):
 def beautify_input(arr, c):
     # arr : input matrix
     # c   : factor to divide by
-
+    print("> Normalizing the dataset")
     a = []
     # For loop to divide each element by c
-    for i in arr:
+    for i in tqdm(arr):
         b = []
         for j in i:
             b.append(int(j)/c)
@@ -139,8 +140,9 @@ def beautify_input(arr, c):
 def beautify_output(arr):
     # arr : list containing all outputs
     a = []
+    print("> Forming output vectors")
     # For loop to do the conversion
-    for val in arr:
+    for val in tqdm(arr):
         # Creating empty list of zeros
         l = [0] * 10
         # Replacing the element with its value

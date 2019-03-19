@@ -5,6 +5,7 @@
 from __future__ import print_function
 from random import random
 from math import exp
+from tqdm import tqdm
 
 '''
     Functions:
@@ -244,7 +245,7 @@ def train(network, train, l_rate, n_epoch, expected):
     # ----------------------------------------------------    
     for epoch in range(n_epoch):
         sum_error = 0
-        for i in range(len(train)):
+        for i in tqdm(range(len(train))):
             row = train[i]
             expected_val = expected[i]
             outputs = forward_propagation(network, row)
@@ -252,7 +253,6 @@ def train(network, train, l_rate, n_epoch, expected):
                 sum_error += (expected_val[j] - outputs[j]) **  2
             backpropagate_error(network, expected_val)
             update_weights(network, row, l_rate)
-            print(i)
         print('> Epoch {} , l_rate = {} ,error = {}'.format(epoch + 1, l_rate, sum_error))
 
 # Function to predict value for an unknown input
