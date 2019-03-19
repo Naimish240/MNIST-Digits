@@ -1,6 +1,9 @@
 # Program to create a neural network with input layer,
 # output layer, and one hidden layer.
 
+# * UPDATE *
+# Added support for multiple hidden layers! Yay!
+
 # Import statements
 from __future__ import print_function
 from random import random
