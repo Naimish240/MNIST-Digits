@@ -6,6 +6,7 @@ from __future__ import print_function
 from random import random
 from math import exp
 from tqdm import tqdm
+from pickle import dump
 
 '''
     Functions:
@@ -229,7 +230,7 @@ def update_weights(network, row, l_rate):
             neuron['bias'] += l_rate * neuron['delta']
 
 # Function to train the network
-def train(network, train, l_rate, n_epoch, expected):
+def train(network, train, l_rate, n_epoch, expected, log = False):
     # ----------------------------------------------------
     # INPUT:
     # ----------------------------------------------------
@@ -238,6 +239,7 @@ def train(network, train, l_rate, n_epoch, expected):
     # l_rate   : float : the learning rate for the network
     # n_epoch  : int   : number of epochs to train for
     # expected : list  : expected output list
+    # log      : bool  : save the network after each epoch?
     # ----------------------------------------------------
     # OUTPUT: 
     # ----------------------------------------------------
@@ -254,6 +256,12 @@ def train(network, train, l_rate, n_epoch, expected):
             backpropagate_error(network, expected_val)
             update_weights(network, row, l_rate)
         print('> Epoch {} , l_rate = {} ,error = {}'.format(epoch + 1, l_rate, sum_error))
+
+        # If logging is enabled, the network is stored after each iteration
+        if log:
+            # Creates .dat file, and loggs the network state onto the file
+            with open("Epoch_{}_error_{}.dat".format(epoch, sum_error), 'wb') as fh:
+                fh.dump(network)
 
 # Function to predict value for an unknown input
 def predict(network, row):
