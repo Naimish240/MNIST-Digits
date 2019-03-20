@@ -20,8 +20,12 @@ def main():
     # Getting the number of neurons in each layer
     
     i_neurons = len(input_layer[0])
-    h_neurons = int(input("> Enter the number of neurons in the hidden layer: "))
+    h_neurons = []
     
+    ch = int(input("> Enter the number of hidden layers: "))
+    for i in range(ch):
+        h_neurons.append(int(input("> Enter the number of neurons in the hidden layer {}: ".format(i+1))))
+
     # For loop to find distinct elements in the output matrix
     distinct_o = []
     for i in output_layer:
