@@ -281,7 +281,7 @@ def train(network, train, l_rate, n_epoch, expected, log = False):
         if log:
             # Creates .dat file, and loggs the network state onto the file
             with open("Epoch_{}_error_{}.dat".format(epoch, sum_error), 'wb') as fh:
-                fh.dump(network)
+                dump(network, fh)
 
 # Function to predict value for an unknown input
 def predict(network, row):
