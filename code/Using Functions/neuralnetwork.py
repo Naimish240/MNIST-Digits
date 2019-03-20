@@ -48,9 +48,9 @@ def init_network(inputs, hidden, outputs):
     # ----------------------------------------------------
     # INPUT:
     # ----------------------------------------------------
-    # inputs  : int : number of inputs
-    # hidden  : int : number of neurons in hidden layer
-    # outputs : int : length of output layer
+    # inputs  : int  : number of inputs
+    # hidden  : list : list of neurons in hidden layers
+    # outputs : int  : length of output layer
     # ----------------------------------------------------
     # OUTPUT: 
     # ----------------------------------------------------
@@ -60,23 +60,36 @@ def init_network(inputs, hidden, outputs):
     network = []
 
     # weights and bias for hidden layers
-    h = []
-    for i in range(hidden):
-        hidden_layer = {}
-        h_weights = []
-        for j in range(inputs):
-            h_weights.append(random())
-        hidden_layer['weights'] = h_weights
-        hidden_layer['bias'] = random()
-        h.append(hidden_layer)
-    network.append(h)
+    
+    for i in range(len(hidden)):
+        h = []
+        for j in range(hidden[i]):
+            hidden_layer = {}
+            h_weights = []
+
+            # For first hidden layer
+            if i == 0:
+                for k in range(inputs):
+                    h_weights.append(random())
+            # For subsequent hidden layers
+            else:
+                for k in range(hidden[i-1]):
+                    h_weights.append(random())
+            
+            # Adding weights and biases to the dictionary
+            hidden_layer['weights'] = h_weights
+            hidden_layer['bias'] = random()
+            h.append(hidden_layer)
+
+        # Adding the hidden layer to the
+        network.append(h)
     
     # weights and bias for output layer
     o = []
     for i in range(outputs):
         output_layer = {}
         o_weights = []
-        for j in range(hidden):
+        for j in range(hidden[-1]):
             o_weights.append(random())
         output_layer['weights'] = o_weights
         output_layer['bias'] = random()
@@ -221,7 +234,10 @@ def update_weights(network, row, l_rate):
     # output : no output, just modifies the network
     # ----------------------------------------------------
     for i in range(len(network)):
-        inputs = [neuron['output'] for neuron in network[i - 1]]
+        #inputs = [neuron['output'] for neuron in network[i - 1]]
+        inputs = []
+        for neuron in network[i-1]:
+            inputs.append(neuron['output'])
         if i == 0:
             inputs = row
         for neuron in network[i]:
