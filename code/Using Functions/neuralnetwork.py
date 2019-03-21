@@ -70,6 +70,7 @@ def init_network(inputs, hidden, outputs):
             hidden_layer = {}
             h_weights = []
 
+            '''
             # For first hidden layer
             if i == 0:
                 for k in range(inputs):
@@ -78,11 +79,19 @@ def init_network(inputs, hidden, outputs):
             else:
                 for k in range(hidden[i-1]):
                     h_weights.append(random())
+            '''
+
+            # For the hidden layers
+            for k in range(inputs):
+                h_weights.append(random())
             
             # Adding weights and biases to the dictionary
             hidden_layer['weights'] = h_weights
             hidden_layer['bias'] = random()
             h.append(hidden_layer)
+
+            # Updating the value of inputs to avoid extra cases
+            inputs = hidden[i]
 
         # Adding the hidden layer to the
         network.append(h)
