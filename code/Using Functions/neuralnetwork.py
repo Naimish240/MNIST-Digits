@@ -70,7 +70,6 @@ def init_network(inputs, hidden, outputs):
             hidden_layer = {}
             h_weights = []
 
-            '''
             # For first hidden layer
             if i == 0:
                 for k in range(inputs):
@@ -79,19 +78,11 @@ def init_network(inputs, hidden, outputs):
             else:
                 for k in range(hidden[i-1]):
                     h_weights.append(random())
-            '''
-
-            # For the hidden layers
-            for k in range(inputs):
-                h_weights.append(random())
             
             # Adding weights and biases to the dictionary
             hidden_layer['weights'] = h_weights
             hidden_layer['bias'] = random()
             h.append(hidden_layer)
-
-            # Updating the value of inputs to avoid extra cases
-            inputs = hidden[i]
 
         # Adding the hidden layer to the
         network.append(h)
@@ -246,19 +237,20 @@ def update_weights(network, row, l_rate):
     # output : no output, just modifies the network
     # ----------------------------------------------------
     for i in range(len(network)):
-        #inputs = [neuron['output'] for neuron in network[i - 1]]
         inputs = []
         for neuron in network[i-1]:
             inputs.append(neuron['output'])
+
         if i == 0:
             inputs = row
+
         for neuron in network[i]:
             for j in range(len(inputs)):
                 neuron['weights'][j] += l_rate * neuron['delta'] * inputs[j]
             neuron['bias'] += l_rate * neuron['delta']
 
 # Function to train the network
-def train(network, train, l_rate, n_epoch, expected, log = False):
+def train(network, training_dataset, l_rate, n_epoch, log = False, testing_dataset = False):
     # ----------------------------------------------------
     # INPUT:
     # ----------------------------------------------------
@@ -272,7 +264,11 @@ def train(network, train, l_rate, n_epoch, expected, log = False):
     # OUTPUT: 
     # ----------------------------------------------------
     # output : no output, just modifies the network
-    # ----------------------------------------------------    
+    # ----------------------------------------------------   
+
+    train, expected = training_dataset[0], training_dataset[1]
+
+    n_epoch = int(n_epoch)
     for epoch in range(n_epoch):
         sum_error = 0
         # replace following line with "for i in range(len(train)):" to run without using tqdm
@@ -281,16 +277,38 @@ def train(network, train, l_rate, n_epoch, expected, log = False):
             expected_val = expected[i]
             outputs = forward_propagation(network, row)
             for j in range(len(expected_val)):
-                sum_error += (expected_val[j] - outputs[j]) **  2
+                sum_error += (expected_val[j] - outputs[j]) **  2 
             backpropagate_error(network, expected_val)
             update_weights(network, row, l_rate)
+    
+        print("> Training result: ")
         print('> Epoch {} , l_rate = {} ,error = {}'.format(epoch + 1, l_rate, sum_error))
+
+        if testing_dataset:
+            testing(network, testing_dataset)
 
         # If logging is enabled, the network is stored after each iteration
         if log:
             # Creates .dat file, and loggs the network state onto the file
             with open("Epoch_{}_error_{}.dat".format(epoch, sum_error), 'wb') as fh:
                 dump(network, fh)
+
+# Function to test the network
+def testing(network, testing_dataset):
+    test, val = testing_dataset[0], testing_dataset[1]
+    correct_guesses = 0
+    # replace following line with "for i in range(len(train)):" to run without using tqdm
+    for i in tqdm(range(len(test))):
+        row = test[i]
+        expected = val[i]
+        network_guess = predict(network, row)
+        # Prediction is correct
+        if network_guess == expected:
+            correct_guesses += 1
+    accuracy = correct_guesses / len(test)
+    accuracy *= 100
+    print("> Testing result: ")
+    print("> Accuracy : {}%".format(accuracy))
 
 # Function to predict value for an unknown input
 def predict(network, row):

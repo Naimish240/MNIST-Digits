@@ -107,7 +107,7 @@ def folder_finder_gui():
 
 #//////////////////////////////////////////////////////////////////////////#
 # Function to get data from csv and return a list
-def convert_csv(fileName, val = 1):
+def convert_csv(fileName, val = 1, vectorize_output = True):
     input_data = []
     output_data = []
     
@@ -129,7 +129,9 @@ def convert_csv(fileName, val = 1):
         input_data = beautify_input(input_data, val)
     
     # Converts output from int to vector
-    output_data = beautify_output(output_data)
+    # For testing data only, not training
+    if vectorize_output:
+        output_data = beautify_output(output_data)
     # Returns the input and output matricies
     return [input_data, output_data]
 #//////////////////////////////////////////////////////////////////////////#

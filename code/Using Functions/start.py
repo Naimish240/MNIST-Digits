@@ -4,22 +4,18 @@ import neuralnetwork as nn
 
 # Main
 def main():
-    # Loading the dataset and normalizing it
+    # Loading the training dataset and normalizing it
     print("> Loading the dataset...")
     
-    
     # Loading with gui
-    file = load.folder_finder_gui()
-    dataset = load.convert_csv(file, 255)
+    training_file = load.folder_finder_gui()
+    training_dataset = load.convert_csv(training_file, 255)
 
     print("> Dataset loaded...")
-    
-    # Splitting dataset into input and output layers
-    input_layer, output_layer = dataset[0], dataset[1]
-    
+
     # Getting the number of neurons in each layer
     
-    i_neurons = len(input_layer[0])
+    i_neurons = len(training_dataset[0][0])
     h_neurons = []
     
     ch = int(input("> Enter the number of hidden layers: "))
@@ -28,7 +24,7 @@ def main():
 
     # For loop to find distinct elements in the output matrix
     distinct_o = []
-    for i in output_layer:
+    for i in training_dataset[1]:
         if i not in distinct_o:
             distinct_o.append(i)
     o_neurons = len(distinct_o)
@@ -42,10 +38,28 @@ def main():
 
     # Getting number of epoches as input
     epoches = int(input("> Enter the number of epoches to train for: "))
-    
+
+    # Testing network after each epoch?
+    testing_dataset = None
+    ch = input("> Do you want to test the network after each epoch? (Y/N): ")
+    if 'y' in ch.lower():
+        # Getting the testing file
+        print("> Select the testing dataset...")
+        testing_file = load.folder_finder_gui()
+        testing_dataset = load.convert_csv(testing_file, val = 255, vectorize_output = False)
+        print("> Testing dataset loaded...")
+
+    # Logging model after each epoch?
+    log = True
+    ch = input("> Do you want to save the model after each epoch? (Y/N): ")
+    if 'n' in ch.lower():
+        log = False
+
     # Training the network
     print("> Training the network...")
-    nn.train(network, input_layer, l_rate, epoches, output_layer)
+
+    nn.train(network, training_dataset, l_rate, epoches, testing_dataset = testing_dataset)
+
 
     print("Exit")
 
