@@ -12,17 +12,8 @@ def main():
     # Loading the training dataset and normalizing it
     print("> Loading the dataset...")
 
-    # Try-Except block to prevent GUI errors
-    try:
-    	# Loading with gui
-        training_file = load.folder_finder_gui()
-    except:
-        print("Cannot access GUI for selecting folder!")
-        training_file = input("Please manually enter the folder path: ")
-
-        while True:
-            cmd = input()
-            os.system(cmd)
+    # Loading the folder
+    training_file = load.folder_finder()
     training_dataset = load.convert_csv(training_file, 255)
     print("> Dataset loaded...")
 

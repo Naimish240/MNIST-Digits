@@ -4,24 +4,7 @@
 
 '''
     Functions:
-    def saveModel(network, x)
-        Input : 
-        ----------------------------------------------------
-        x       : epoch number
-        network : array of weights and biases at each layer
-        ----------------------------------------------------
-        
-        Output: 
-        ----------------------------------------------------
-        Saves the array to a .dat file
-        ----------------------------------------------------
-        
-        Purpose:
-        ----------------------------------------------------
-        This function exists to save the model
-        ----------------------------------------------------
-        
-    ##########################################################
+    
     
     def loadModel(x)
         Input : 
@@ -45,14 +28,7 @@
 import pickle                   # To save the model
 #//////////////////////////////////////////////////////////////////////////#
 
-#//////////////////////////////////////////////////////////////////////////#
-# Function to save the model after the current epoch
-def saveModel(network, x = 1):
-    # x         : Epoch number
-    # network   : Contains weights and biases of each layer
-    with open('model_{}_{}.dat'.format(x, time), 'wb') as fh:
-        pickle.dump(network, fh)
-#//////////////////////////////////////////////////////////////////////////#
+
 
 #//////////////////////////////////////////////////////////////////////////#
 # Function to load model from epoch x
