@@ -51,6 +51,6 @@ def sysinfo(display = True, return_info = False):
     # Returns the system info
     if return_info:
         return info
-    
+
 if __name__ == '__main__':
     sysinfo()

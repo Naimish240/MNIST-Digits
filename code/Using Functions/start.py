@@ -1,4 +1,9 @@
 from __future__ import print_function
+
+from os import sys
+# Adding previous dircetory since it contains loadData.py
+sys.path.insert(0, './..')
+
 import loadData as load
 import neuralnetwork as nn
 
@@ -6,11 +11,19 @@ import neuralnetwork as nn
 def main():
     # Loading the training dataset and normalizing it
     print("> Loading the dataset...")
-    
-    # Loading with gui
-    training_file = load.folder_finder_gui()
-    training_dataset = load.convert_csv(training_file, 255)
 
+    # Try-Except block to prevent GUI errors
+    try:
+    	# Loading with gui
+        training_file = load.folder_finder_gui()
+    except:
+        print("Cannot access GUI for selecting folder!")
+        training_file = input("Please manually enter the folder path: ")
+
+        while True:
+            cmd = input()
+            os.system(cmd)
+    training_dataset = load.convert_csv(training_file, 255)
     print("> Dataset loaded...")
 
     # Getting the number of neurons in each layer
