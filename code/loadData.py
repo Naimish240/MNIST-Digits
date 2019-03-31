@@ -129,7 +129,7 @@ except:
         os.system('pip3 install tqdm')
     else:
         os.system('pip install tqdm')
-        
+
 from pickle import load, dump
 
 #//////////////////////////////////////////////////////////////////////////#
@@ -171,8 +171,8 @@ def folder_finder():
         print('-' * 78)
         echo('Your system does not support Tkinter.')
         echo('Select the file you want to load by navigating through the terminal.')
+        commands(OPERATING_SYSTEM)
         while True:
-            commands(OPERATING_SYSTEM)
             cmd = input("> Enter your command: ")
 
             ch = cmd.split()
@@ -194,13 +194,14 @@ def folder_finder():
                     new_dir = new_dir[:-2]
                     print(new_dir)
                     os.chdir(new_dir)
-                    echo("CURRENT WORKING DIRECTORY : {}".format(os.getcwd()))    
+                    echo("CURRENT WORKING DIRECTORY : {}".format(os.getcwd()))
                 except:
                     echo("ERROR!!! THE DIRECTORY DOES NOT EXIST! TRY AGAIN!")
             elif ch[0] == 'pwd':
                 echo("CURRENT WORKING DIRECTORY : {}".format(os.getcwd()))
             else:
                 echo("ERROR!!! INVALID COMMAND! TRY AGAIN!")
+                commands(OPERATING_SYSTEM)
     return filename
 #//////////////////////////////////////////////////////////////////////////#
 
@@ -209,16 +210,16 @@ def folder_finder():
 def convert_csv(fileName, val = 1, vectorize_output = True):
     input_data = []
     output_data = []
-    
+
     # Opening the csv file
     with open(fileName, 'r') as fh:
         lines = fh.readlines()
-        
+
         # Replace following line with "for i in lines:" to use without tqdm
         for i in tqdm(lines):
             i = i.strip('\n')                    # Removing new line char
             i = i.split(',')                     # Splitting with comma
-            
+
             output_data.append(int(i[0]))        # Adding to output matrix
             input_data.append(i[1:])             # Adding to input strings
 
