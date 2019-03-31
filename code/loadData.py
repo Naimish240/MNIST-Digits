@@ -118,6 +118,7 @@ info = sysinfo(return_info = True)
 PYTHON_VERSION = info['python_version']
 OPERATING_SYSTEM = info['os']
 
+from time import time
 import os
     
 try:
@@ -129,7 +130,7 @@ except:
     else:
         os.system('pip install tqdm')
         
-from pickle import load
+from pickle import load, dump
 
 #//////////////////////////////////////////////////////////////////////////#
 # Function to echo a message to the terminal
@@ -172,7 +173,7 @@ def folder_finder():
         echo('Select the file you want to load by navigating through the terminal.')
         while True:
             commands(OPERATING_SYSTEM)
-            cmd = input("> Enter your command: ").lower()
+            cmd = input("> Enter your command: ")
 
             ch = cmd.split()
             print('-' * 78)
@@ -187,7 +188,13 @@ def folder_finder():
                     echo("ERROR!!! WINDOWS DOES NOT SUPPORT THIS COMMAND!")
             elif ch[0] == 'cd':
                 try:
-                    os.chdir(ch[1])
+                    new_dir = ''
+                    for i in ch[1:]:
+                        new_dir += (i + '\\ ')
+                    new_dir = new_dir[:-2]
+                    print(new_dir)
+                    os.chdir(new_dir)
+                    echo("CURRENT WORKING DIRECTORY : {}".format(os.getcwd()))    
                 except:
                     echo("ERROR!!! THE DIRECTORY DOES NOT EXIST! TRY AGAIN!")
             elif ch[0] == 'pwd':
@@ -271,7 +278,7 @@ def beautify_output(arr):
 def load_model():
     print("> Select the model to load")
     # Choosing file with Tkinter gui
-    file = folder_finder_gui()
+    file = folder_finder()
     network = None
     print("> Loading the model")
     # Opening the model .dat file
@@ -287,7 +294,7 @@ def saveModel(network, x = 1):
     # x         : Epoch number
     # network   : Contains weights and biases of each layer
     with open('model_{}_{}.dat'.format(x, time), 'wb') as fh:
-        pickle.dump(network, fh)
+        dump(network, fh)
 #//////////////////////////////////////////////////////////////////////////#
 
 #//////////////////////////////////////////////////////////////////////////#

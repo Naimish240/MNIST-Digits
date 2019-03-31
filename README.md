@@ -11,6 +11,7 @@ Modules used:
     for the loading bar. Can modify script to run without it.
   4. tkinter(comes with python)
     for gui to select the file to load
+    the program can run without it
   5. future for print_function
   
 Currently supports only one hidden layer. Working on support for multiple layers.
