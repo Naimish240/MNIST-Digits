@@ -16,8 +16,8 @@ Folders:
        Now has support for multiple hidden layers! Yay!
     
     3. Using GPU
-	This folder contains scripts to use numpy arrays and numba for increasing the speed
-	Work in progress. Still Incomplete. Very buggy.
+        This folder contains scripts to use numpy arrays and numba for increasing the speed
+        Work in progress. Still Incomplete. Very buggy.
 
 Scripts:
 
@@ -35,5 +35,5 @@ Scripts:
             > Interpreter      : 64bit
 
     2. loaddata.py
-	This script contains the functions related to opening a csv and normalizing it.
+        This script contains the functions related to opening a csv and normalizing it.
 	
