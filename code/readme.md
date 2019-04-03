@@ -1,4 +1,4 @@
-This folder contains two folders and one script.
+This folder contains three folders and two scripts.
 
 Folders:
 
@@ -14,8 +14,12 @@ Folders:
        
        * UPDATE *
        Now has support for multiple hidden layers! Yay!
+    
+    3. Using GPU
+	This folder contains scripts to use numpy arrays and numba for increasing the speed
+	Work in progress. Still Incomplete. Very buggy.
 
-Script:
+Scripts:
 
     1. sysinfo.py
         This script is used to find the system's information.
@@ -29,3 +33,7 @@ Script:
             > Processor        : Intel64 Family 6 Model 158 Stepping 11, GenuineIntel
             > CPU count        : 4
             > Interpreter      : 64bit
+
+    2. loaddata.py
+	This script contains the functions related to opening a csv and normalizing it.
+	
