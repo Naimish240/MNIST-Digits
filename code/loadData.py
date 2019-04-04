@@ -148,19 +148,66 @@ def commands(OPERATING_SYSTEM):
 
     print('-' * 78)
     echo('COMMANDS')
-    echo("1. '{}' : list the items in the current directory".format(cmd))
-    echo("2. 'cd <name> : changes the current working directory to <name>")
+    echo("1. '{}'                : list the items in the current directory".format(cmd))
+    echo("2. 'cd <name>           : changes the current working directory to <name>")
     echo("    use 'cd ..' to move into previous directory")
-    echo("3. 'select <file_name>' to select the file (with proper extension)")
-    echo("4. 'pwd' : prints current working directory")
-    echo("5. 'ctrl + c' to exit without selecting the file")
+    echo("3. 'select <file_name>' : select the file (with proper extension)")
+    echo("4. 'pwd'                : prints current working directory")
+    echo("5. 'help'               : prints this help menu")
+    echo("6. 'ctrl + c'           : exit without selecting the file")
     print('-' * 78)
+#//////////////////////////////////////////////////////////////////////////#
+
+#//////////////////////////////////////////////////////////////////////////#
+# Function for the terminal extension
+def my_terminal():
+    filename = None
+    print('-' * 78)
+    echo('Your system does not support Tkinter.')
+    echo('Select the file you want to load by navigating through the terminal.')
+    commands(OPERATING_SYSTEM)
+    while True:
+        cmd = input("> Enter your command: ")
+
+        ch = cmd.split()
+        print('-' * 78)
+
+        if ch[0] == 'select':
+            filename = ch[1]
+            break
+        elif ch[0] == 'dir' or ch[0] == 'ls':
+            try:
+                os.system(cmd)
+            except:
+                echo("ERROR!!! WINDOWS DOES NOT SUPPORT THIS COMMAND!")
+        elif ch[0] == 'cd':
+            try:
+                new_dir = ''
+                for i in ch[1:]:
+                    new_dir += (i + '\\ ')
+                new_dir = new_dir[:-2]
+                print(new_dir)
+                os.chdir(new_dir)
+                echo("CURRENT WORKING DIRECTORY : {}".format(os.getcwd()))
+            except:
+                echo("ERROR!!! THE DIRECTORY DOES NOT EXIST! TRY AGAIN!")
+        elif ch[0] == 'pwd':
+            echo("CURRENT WORKING DIRECTORY : {}".format(os.getcwd()))
+        elif ch[0] == 'help':
+            commands(OPERATING_SYSTEM)
+        else:
+            echo("ERROR!!! INVALID COMMAND! TRY AGAIN!")
+            commands(OPERATING_SYSTEM)
+
+    return filename
 #//////////////////////////////////////////////////////////////////////////#
 
 #//////////////////////////////////////////////////////////////////////////#
 # Function to select folder
 def folder_finder():
+    filename = None
     try:
+        # (Un)comment to control gui
         from tkinter import Tk
         from tkinter.filedialog import askopenfilename
         Tk().withdraw()                       # We don't want a full GUI, so keep the root window from appearing
@@ -168,40 +215,8 @@ def folder_finder():
     
     # select folder through terminal
     except:
-        print('-' * 78)
-        echo('Your system does not support Tkinter.')
-        echo('Select the file you want to load by navigating through the terminal.')
-        commands(OPERATING_SYSTEM)
-        while True:
-            cmd = input("> Enter your command: ")
-
-            ch = cmd.split()
-            print('-' * 78)
-
-            if ch[0] == 'select':
-                filename = ch[1]
-                break
-            elif ch[0] == 'dir' or ch[0] == 'ls':
-                try:
-                    os.system(cmd)
-                except:
-                    echo("ERROR!!! WINDOWS DOES NOT SUPPORT THIS COMMAND!")
-            elif ch[0] == 'cd':
-                try:
-                    new_dir = ''
-                    for i in ch[1:]:
-                        new_dir += (i + '\\ ')
-                    new_dir = new_dir[:-2]
-                    print(new_dir)
-                    os.chdir(new_dir)
-                    echo("CURRENT WORKING DIRECTORY : {}".format(os.getcwd()))
-                except:
-                    echo("ERROR!!! THE DIRECTORY DOES NOT EXIST! TRY AGAIN!")
-            elif ch[0] == 'pwd':
-                echo("CURRENT WORKING DIRECTORY : {}".format(os.getcwd()))
-            else:
-                echo("ERROR!!! INVALID COMMAND! TRY AGAIN!")
-                commands(OPERATING_SYSTEM)
+        my_terminal()
+    
     return filename
 #//////////////////////////////////////////////////////////////////////////#
 
