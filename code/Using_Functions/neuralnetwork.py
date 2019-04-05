@@ -272,6 +272,7 @@ def train(network, training_dataset, l_rate, n_epoch, log = False, testing_datas
 
     n_epoch = int(n_epoch)
     for epoch in range(n_epoch):
+        print('Training the network...')
         sum_error = 0
         # replace following line with "for i in range(len(train)):" to run without using tqdm
         for i in tqdm(range(len(train))):
@@ -282,18 +283,22 @@ def train(network, training_dataset, l_rate, n_epoch, log = False, testing_datas
                 sum_error += (expected_val[j] - outputs[j]) **  2 
             backpropagate_error(network, expected_val)
             update_weights(network, row, l_rate)
-    
+        print('-' * 78)
         print("> Training result: ")
         print('> Epoch {} , l_rate = {} ,error = {}'.format(epoch + 1, l_rate, sum_error))
 
         if testing_dataset:
+            print('-' * 78)
+            print('> Testing the network: ')
             testing(network, testing_dataset)
-
+            print('-' * 78)
         # If logging is enabled, the network is stored after each iteration
         if log:
+            print("Logging the network...")
             # Creates .dat file, and loggs the network state onto the file
             with open("Epoch_{}_error_{}.dat".format(epoch, sum_error), 'wb') as fh:
                 dump(network, fh)
+            print('-' * 78)
 
 # Function to test the network
 def testing(network, testing_dataset):
