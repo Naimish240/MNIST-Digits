@@ -9,7 +9,58 @@
 '''
     Functions:
     ##########################################################
-    def folder_finder_gui()
+    def echo()
+	Input:
+	----------------------------------------------------
+	This function takes 'command' as input
+	----------------------------------------------------
+
+	Output:
+	----------------------------------------------------
+	echoes message to console
+	----------------------------------------------------
+
+	Purpose:
+	----------------------------------------------------
+	To assist in selecting folder without gui
+	----------------------------------------------------
+
+    ##########################################################
+    def commands()
+	Input:
+	----------------------------------------------------
+	OPERATING_SYSTEM for win vs linux vs mac
+	----------------------------------------------------
+
+	Output:
+	----------------------------------------------------
+	Prints the help menu for the custom terminal
+	----------------------------------------------------
+
+	Purpose:
+	----------------------------------------------------
+	To display the help menu
+	----------------------------------------------------
+
+    ##########################################################
+    def my_terminal()
+	Input:
+	----------------------------------------------------
+	This function takes no inputs
+	----------------------------------------------------
+
+	Output:
+	----------------------------------------------------
+	Returns the file name selected
+	----------------------------------------------------
+
+	Purpose:
+	----------------------------------------------------
+	To select the file without Tkinter
+	----------------------------------------------------
+
+    ##########################################################
+    def folder_finder()
         Input : 
         ----------------------------------------------------
         this function takes no inputs
@@ -22,7 +73,8 @@
         
         Purpose:
         ----------------------------------------------------
-        Selecting dataset through Tkinter GUI
+        Selecting dataset through Tkinter GUI or custom 
+	terminal
         ----------------------------------------------------
 
     ##########################################################
@@ -114,6 +166,7 @@ from __future__ import print_function
 
 # Getting the system information
 from sysinfo import sysinfo
+
 info = sysinfo(return_info = True)
 PYTHON_VERSION = info['python_version']
 OPERATING_SYSTEM = info['os']
@@ -161,7 +214,6 @@ def commands(OPERATING_SYSTEM):
 #//////////////////////////////////////////////////////////////////////////#
 # Function for the terminal extension
 def my_terminal():
-    filename = None
     print('-' * 78)
     echo('Your system does not support Tkinter.')
     echo('Select the file you want to load by navigating through the terminal.')
@@ -173,8 +225,7 @@ def my_terminal():
         print('-' * 78)
 
         if ch[0] == 'select':
-            filename = ch[1]
-            break
+            return ch[1]
         elif ch[0] == 'dir' or ch[0] == 'ls':
             try:
                 os.system(cmd)
@@ -198,8 +249,6 @@ def my_terminal():
         else:
             echo("ERROR!!! INVALID COMMAND! TRY AGAIN!")
             commands(OPERATING_SYSTEM)
-
-    return filename
 #//////////////////////////////////////////////////////////////////////////#
 
 #//////////////////////////////////////////////////////////////////////////#
@@ -215,7 +264,7 @@ def folder_finder():
     
     # select folder through terminal
     except:
-        my_terminal()
+        filename = my_terminal()
     
     return filename
 #//////////////////////////////////////////////////////////////////////////#

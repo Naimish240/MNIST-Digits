@@ -49,7 +49,7 @@ def main():
     if 'y' in ch.lower():
         # Getting the testing file
         print("> Select the testing dataset...")
-        testing_file = load.folder_finder_gui()
+        testing_file = load.folder_finder()
         testing_dataset = load.convert_csv(testing_file, val = 255, vectorize_output = False)
         print("> Testing dataset loaded...")
 
