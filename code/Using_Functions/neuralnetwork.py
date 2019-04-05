@@ -6,7 +6,7 @@
 
 # Import statements
 from __future__ import print_function
-from random import random
+from random import random, randint
 from math import exp
 from tqdm import tqdm
 from pickle import dump
@@ -73,7 +73,8 @@ def init_network(inputs, hidden, outputs):
             # For first hidden layer
             if i == 0:
                 for k in range(inputs):
-                    h_weights.append(random())
+                    # Modified to have -ve initial weights too
+                    h_weights.append(random() * (-1) * (randint(0, 10)))
             # For subsequent hidden layers
             else:
                 for k in range(hidden[i-1]):
@@ -127,19 +128,20 @@ def dot(weights, bias, inputs):
     return sum
     
 # Function to calculate activation of neurons
-def sigmoid(val):
+def sigmoid(gamma):
     # ----------------------------------------------------
     # INPUT:
     # ----------------------------------------------------
-    # val : float : value to calculate sigmoid for
+    # gamma : float : value to calculate sigmoid for
     # ----------------------------------------------------
     # OUTPUT: 
     # ----------------------------------------------------
     # x : float : sigmoid of input
     # ----------------------------------------------------    
-    x = 1.0 / (1 + exp(-val))
-    return x
-    
+    if gamma < 0:
+        return 1 - 1/(1 + exp(gamma))
+    else:
+        return 1/(1 + exp(-gamma))
 def transfer_derivative(val):
     # ----------------------------------------------------
     # INPUT:
