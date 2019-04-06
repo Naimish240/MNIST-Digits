@@ -8,7 +8,7 @@ import numpy as np
 class NeuralNetwork(object):
     """
         NeuralNetwork class
-        This class contains 
+        This class contains the functions related to making a neural network
     """
     def __init__(self, layers, activations):
         assert(len(layers) == len(activations) + 1)
@@ -116,7 +116,7 @@ class NeuralNetwork(object):
         # Updates weights and biases based on output
 
         for e in tqdm(range(epochs)):
-            print("> Training the network...")
+            #print("> Training the network...")
             i = 0
             # Training, batch wise
             while (i<len(y)):
@@ -132,16 +132,16 @@ class NeuralNetwork(object):
                 self.biases = [w + lr * dbias for w, dbias in zip(self.biases, db)]
 
             # One epoch finished
-            print("> Epoch {} ,l_rate = {} ,Loss = {}".format(e, lr, np.linalg.norm(a_s[-1]-y_batch)))
+        #print("> Epoch {} ,l_rate = {} ,Loss = {}".format(e, lr, np.linalg.norm(a_s[-1]-y_batch)))
 
 
 if __name__=='__main__':
     import matplotlib.pyplot as plt
-    nn = NeuralNetwork([1, 100, 1],activations=['sigmoid', 'sigmoid'])
+    nn = NeuralNetwork([1, 1000, 1], activations=['sigmoid', 'sigmoid'])#, 'sigmoid', 'relu'])
     X = 2*np.pi*np.random.rand(1000).reshape(1, -1)
     y = np.sin(X)
     
-    nn.train(X, y, epochs=10000, batch_size = 64, lr = 0.1)
+    nn.train(X, y, epochs=3000, batch_size = 100, lr = 0.01)
     _, a_s = nn.feedforward(X)
     #print(y, X)
     plt.scatter(X.flatten(), y.flatten())
