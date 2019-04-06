@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 # Import statements
 from __future__ import print_function
 from tqdm import tqdm
@@ -5,17 +6,22 @@ from pickle import dump
 import numpy as np      
       
 class NeuralNetwork(object):
+    """
+        NeuralNetwork class
+        This class contains 
+    """
     def __init__(self, layers, activations):
         assert(len(layers) == len(activations) + 1)
         self.layers = layers
         self.activations = activations
         self.weights = []
         self.biases = []
+        self.initialize()
 
     def initialize(self):
         for i in range(len(self.layers) - 1):
-            self.weights.append(np.random.randn(self.layers[i+1], layers[i]))
-            self.biases.append(np.random.randn(layers[i+1], 1))
+            self.weights.append(np.random.randn(self.layers[i+1], self.layers[i]))
+            self.biases.append(np.random.randn(self.layers[i+1], 1))
 
     def feedforward(self, x):
         # Returns the feed forward value for X
@@ -34,7 +40,11 @@ class NeuralNetwork(object):
     @staticmethod
     def getActFn(name):
         if (name == 'sigmoid'):
-            return lambda x : np.exp(x) / (1+np.exp(x))
+            
+            def sigmoid(x):
+                return (1 / (1 + np.exp(-x)))
+            
+            return sigmoid
 
         elif (name == 'relu'):
             
@@ -53,7 +63,7 @@ class NeuralNetwork(object):
         dw = []     # dC/dW
         db = []     # dC/dB
 
-        deltas = [None] * len(self.weights)     # delta = dC/dZ == error for layer
+        deltas = [0] * len(self.weights)     # delta = dC/dZ == error for layer
         
         # Adding delta of last layer
         # Using MSE loss function. replace (y - a_s[-1]) with derivative of other cost function
@@ -64,8 +74,8 @@ class NeuralNetwork(object):
         for i in reversed(range(len(deltas) - 1)):
             deltas[i] = self.weights[i+1].T.dot(deltas[i+1]) * (self.getDerActFn(self.activations[i])(z_s[i]))
             
-            batch_size = y.shape(1)
-
+            batch_size = y.shape
+            #batch_size = np.array(batch_size)
             db = [d.dot(np.ones((batch_size, 1))) / float(batch_size) for d in deltas]
             dw = [d.dot(a_s[i].T)/float(batch_size) for i, d in enumerate(deltas)]
 
@@ -75,9 +85,13 @@ class NeuralNetwork(object):
     @staticmethod
     def getDerActFn(name):
         if (name == 'sigmoid'):
-            sig = lambda x : np.exp(x) * (1-sig(x))
+            
+            def der_sigmoid(x):
+                def sigmoid(x):
+                    return (1 / (1 + np.exp(-x)))
+                return sigmoid(x) * (1 - sigmoid(x))
 
-            return lambda x : sig(x) * (1-sig(x))
+            return der_sigmoid
 
         elif (name == 'linear'):
             return lambda x : 1
@@ -85,6 +99,7 @@ class NeuralNetwork(object):
         elif (name == 'relu'):
 
             def der_relu(x):
+
                 y = np.copy(x)
                 y[y>=0] = 1
                 y[y<0] = 0
@@ -97,11 +112,13 @@ class NeuralNetwork(object):
             print("> Unknown activation function. Using Linear instead.")
             return lambda x : 1
 
-    def train(self, x, y, batch_size, epochs, lr):
+    def train(self, x, y, batch_size, epochs, lr, test = False, log = False):
         # Updates weights and biases based on output
 
         for e in tqdm(range(epochs)):
+            print("> Training the network...")
             i = 0
+            # Training, batch wise
             while (i<len(y)):
                 x_batch = x[i : i + batch_size]
                 y_batch = y[i : i + batch_size]
@@ -114,4 +131,19 @@ class NeuralNetwork(object):
                 self.weights = [w + lr * dweight for w, dweight in zip(self.weights, dw)]
                 self.biases = [w + lr * dbias for w, dbias in zip(self.biases, db)]
 
-                print("> Loss = {}".format(np.linalg.norm(a_s[-1]-y_batch)))
+            # One epoch finished
+            print("> Epoch {} ,l_rate = {} ,Loss = {}".format(e, lr, np.linalg.norm(a_s[-1]-y_batch)))
+
+
+if __name__=='__main__':
+    import matplotlib.pyplot as plt
+    nn = NeuralNetwork([1, 100, 1],activations=['sigmoid', 'sigmoid'])
+    X = 2*np.pi*np.random.rand(1000).reshape(1, -1)
+    y = np.sin(X)
+    
+    nn.train(X, y, epochs=10000, batch_size     = 64, lr = 0.1)
+    _, a_s = nn.feedforward(X)
+    #print(y, X)
+    plt.scatter(X.flatten(), y.flatten())
+    plt.scatter(X.flatten(), a_s[-1].flatten())
+    plt.show()
