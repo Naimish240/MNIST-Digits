@@ -19,8 +19,9 @@ class Network(object):
             self.weights.append(np.random.randn(self.layers[i+1], self.layers[i]))
             self.biases.append(np.random.randn(self.layers[i+1], 1))
 
+
+
 if __name__ =='__main__':
     layers = [1, 100, 1]
     activations = [1, 2]
-    network = Network(layers, activations)
-    
+    network = Network(layers, activations

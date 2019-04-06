@@ -63,7 +63,7 @@ class NeuralNetwork(object):
         dw = []     # dC/dW
         db = []     # dC/dB
 
-        deltas = [0] * len(self.weights)     # delta = dC/dZ == error for layer
+        deltas = [None] * len(self.weights)     # delta = dC/dZ == error for layer
         
         # Adding delta of last layer
         # Using MSE loss function. replace (y - a_s[-1]) with derivative of other cost function
@@ -74,7 +74,7 @@ class NeuralNetwork(object):
         for i in reversed(range(len(deltas) - 1)):
             deltas[i] = self.weights[i+1].T.dot(deltas[i+1]) * (self.getDerActFn(self.activations[i])(z_s[i]))
             
-            batch_size = y.shape
+            batch_size = y.shape[1]
             #batch_size = np.array(batch_size)
             db = [d.dot(np.ones((batch_size, 1))) / float(batch_size) for d in deltas]
             dw = [d.dot(a_s[i].T)/float(batch_size) for i, d in enumerate(deltas)]
@@ -141,7 +141,7 @@ if __name__=='__main__':
     X = 2*np.pi*np.random.rand(1000).reshape(1, -1)
     y = np.sin(X)
     
-    nn.train(X, y, epochs=10000, batch_size     = 64, lr = 0.1)
+    nn.train(X, y, epochs=10000, batch_size = 64, lr = 0.1)
     _, a_s = nn.feedforward(X)
     #print(y, X)
     plt.scatter(X.flatten(), y.flatten())
