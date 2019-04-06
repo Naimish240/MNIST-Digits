@@ -271,7 +271,7 @@ def folder_finder():
 
 #//////////////////////////////////////////////////////////////////////////#
 # Function to get data from csv and return a list
-def convert_csv(fileName, val = 1, vectorize_output = True):
+def convert_csv(fileName, vectorize_output = True):
     input_data = []
     output_data = []
 
@@ -284,13 +284,18 @@ def convert_csv(fileName, val = 1, vectorize_output = True):
             i = i.strip('\n')                    # Removing new line char
             i = i.split(',')                     # Splitting with comma
 
-            output_data.append(int(i[0]))        # Adding to output matrix
+            output_data.append(float(i[0]))      # Adding to output matrix
             input_data.append(i[1:])             # Adding to input strings
 
     # Edits input data to contain values from 0-1 instead of 0-val
     # Provided the value is not unity
-    if val != 1:
-        input_data = beautify_input(input_data, val)
+    print("> Do you want to normalize the dataset? (Y/N) : ")
+    val = input().lower()
+    if 'y' in val:
+        x = max(input_data)
+        y = min(input_data)
+        z = max(x, -y)
+        input_data = beautify_input(input_data, z)
     
     # Converts output from int to vector
     # For testing data only, not training
