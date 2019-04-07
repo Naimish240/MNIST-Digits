@@ -279,8 +279,13 @@ def train(network, training_dataset, l_rate, n_epoch, log = False, testing_datas
             row = train[i]
             expected_val = expected[i]
             outputs = forward_propagation(network, row)
-            for j in range(len(expected_val)):
-                sum_error += (expected_val[j] - outputs[j]) **  2 
+            
+            if type(expected_val) is list:
+                for j in range(len(expected_val)):
+                    sum_error += (expected_val[j] - outputs[j]) **  2
+            else:
+                sum_error == (expected_val - outputs[0]) ** 2 
+
             backpropagate_error(network, expected_val)
             update_weights(network, row, l_rate)
         print('-' * 78)

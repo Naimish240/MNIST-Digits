@@ -271,6 +271,7 @@ def folder_finder():
 
 #//////////////////////////////////////////////////////////////////////////#
 # Function to get data from csv and return a list
+# csv has first row as output and rest as inputs
 def convert_csv(fileName, vectorize_output = True):
     input_data = []
     output_data = []
@@ -285,22 +286,25 @@ def convert_csv(fileName, vectorize_output = True):
             i = i.split(',')                     # Splitting with comma
 
             output_data.append(float(i[0]))      # Adding to output matrix
-            input_data.append(i[1:])             # Adding to input strings
+            input_data.append([float(i) for i in i[1:]])             # Adding to input strings
 
     # Edits input data to contain values from 0-1 instead of 0-val
     # Provided the value is not unity
     print("> Do you want to normalize the dataset? (Y/N) : ")
     val = input().lower()
     if 'y' in val:
-        x = max(input_data)
-        y = min(input_data)
-        z = max(x, -y)
+        x = max(max(input_data))
+        y = min(min(input_data))
+        z = max(x, abs(y))
+        print(z)
         input_data = beautify_input(input_data, z)
     
     # Converts output from int to vector
     # For testing data only, not training
+
     if vectorize_output:
         output_data = beautify_output(output_data)
+
     # Returns the input and output matricies
     return [input_data, output_data]
 #//////////////////////////////////////////////////////////////////////////#
@@ -328,16 +332,23 @@ def beautify_input(arr, c):
 def beautify_output(arr):
     # arr : list containing all outputs
     a = []
+    c = int(input("> Enter the number of output neurons: "))
     print("> Forming output vectors")
+    
     # For loop to do the conversion
-    # Replace following line with "for val in arr:" to run without tqdm 
-    for val in tqdm(arr):
-        # Creating empty list of zeros
-        l = [0] * 10
-        # Replacing the element with its value
-        l[val] = 1
-        # Adding it to the list
-        a.append(l)
+    # If only one output neuron, then return the list of outputs as output
+    if c == 1:
+        for val in tqdm(arr):
+            a.append(val)
+    else:
+        # Replace following line with "for val in arr:" to run without tqdm 
+        for val in tqdm(arr):
+            # Creating empty list of zeros
+            l = [0] * c
+            # Replacing the element with its value
+            l[int(val)] = 1
+            # Adding it to the list
+            a.append(l)
 
     # Returning the list of output vectors
     return a
